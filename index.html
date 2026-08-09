@@ -9,7 +9,6 @@
 <style>
 :root{
     --blue:#00eaff;
-    --blue2:#0077ff;
     --dark:#02070d;
     --panel:rgba(0,234,255,.06);
     --border:rgba(0,234,255,.35);
@@ -26,16 +25,22 @@
     box-sizing:border-box;
 }
 
+html,
+body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+}
+
 body{
     font-family:Arial, Helvetica, sans-serif;
     background:
         radial-gradient(circle at center,#082433 0%,#02070d 45%,#000 100%);
     color:var(--text);
-    min-height:100vh;
-    overflow-x:hidden;
+    height:100vh;
 }
 
-/* GRID BACKGROUND */
+/* BACKGROUND GRID */
 
 body::before{
     content:"";
@@ -70,24 +75,27 @@ body::after{
 /* HEADER */
 
 header{
+    height:8vh;
+    min-height:55px;
     display:flex;
     justify-content:space-between;
     align-items:center;
-    padding:22px 35px;
+    padding:8px 25px;
     border-bottom:1px solid var(--border);
 }
 
 .logo{
-    font-size:24px;
-    letter-spacing:8px;
+    font-size:20px;
+    letter-spacing:7px;
     color:var(--blue);
     text-shadow:0 0 18px var(--blue);
 }
 
 .status{
-    font-size:11px;
+    font-size:9px;
     letter-spacing:3px;
     color:var(--green);
+    margin-top:3px;
 }
 
 .timeBox{
@@ -95,40 +103,42 @@ header{
 }
 
 #clock{
-    font-size:25px;
+    font-size:20px;
     letter-spacing:3px;
 }
 
 #date{
     color:var(--muted);
-    font-size:12px;
-    margin-top:5px;
+    font-size:10px;
+    margin-top:3px;
 }
 
-/* DASHBOARD */
+/* MAIN DASHBOARD */
 
 .dashboard{
+    height:41vh;
     display:grid;
-    grid-template-columns:1fr 1.3fr 1fr;
-    gap:18px;
-    padding:20px;
+    grid-template-columns:1fr 1.25fr 1fr;
+    gap:12px;
+    padding:10px 20px;
 }
 
 .panel{
     background:var(--panel);
     border:1px solid var(--border);
     backdrop-filter:blur(10px);
-    min-height:250px;
-    padding:18px;
+    min-height:0;
+    padding:12px;
     position:relative;
     box-shadow:inset 0 0 30px rgba(0,234,255,.025);
+    overflow:hidden;
 }
 
 .panel::before{
     content:"";
     position:absolute;
-    width:30px;
-    height:30px;
+    width:25px;
+    height:25px;
     top:-1px;
     left:-1px;
     border-top:2px solid var(--blue);
@@ -138,8 +148,8 @@ header{
 .panel::after{
     content:"";
     position:absolute;
-    width:30px;
-    height:30px;
+    width:25px;
+    height:25px;
     bottom:-1px;
     right:-1px;
     border-bottom:2px solid var(--blue);
@@ -147,30 +157,43 @@ header{
 }
 
 .panel-title{
-    font-size:12px;
+    font-size:10px;
     letter-spacing:4px;
     color:var(--blue);
-    margin-bottom:18px;
+    margin-bottom:9px;
 }
 
 /* SCHEDULE */
 
+#schedule{
+    max-height:27vh;
+    overflow-y:auto;
+}
+
 .schedule-item{
     display:grid;
-    grid-template-columns:70px 1fr;
-    padding:12px 0;
+    grid-template-columns:65px 1fr 25px;
+    align-items:center;
+    padding:6px 0;
     border-bottom:1px solid rgba(0,234,255,.12);
 }
 
 .schedule-time{
     color:var(--blue);
+    font-size:11px;
 }
 
 .schedule-name{
-    font-size:14px;
+    font-size:11px;
 }
 
-/* CENTER */
+.event-delete{
+    cursor:pointer;
+    color:#56777b;
+    font-size:11px;
+}
+
+/* CENTER REACTOR */
 
 .center-panel{
     display:flex;
@@ -180,8 +203,8 @@ header{
 }
 
 .reactor{
-    width:240px;
-    height:240px;
+    width:165px;
+    height:165px;
     border-radius:50%;
     border:2px solid var(--blue);
     box-shadow:
@@ -197,18 +220,18 @@ header{
 .reactor::before{
     content:"";
     position:absolute;
-    width:190px;
-    height:190px;
+    width:132px;
+    height:132px;
     border-radius:50%;
-    border:8px dashed rgba(0,234,255,.5);
+    border:6px dashed rgba(0,234,255,.5);
     animation:spin 12s linear infinite;
 }
 
 .reactor::after{
     content:"";
     position:absolute;
-    width:150px;
-    height:150px;
+    width:100px;
+    height:100px;
     border-radius:50%;
     border:2px solid rgba(0,234,255,.65);
     animation:spinReverse 8s linear infinite;
@@ -236,24 +259,22 @@ header{
 }
 
 #progressPercent{
-    font-size:45px;
+    font-size:34px;
     color:white;
     text-shadow:0 0 15px var(--blue);
 }
 
 .progress-label{
-    font-size:10px;
-    letter-spacing:3px;
+    font-size:8px;
+    letter-spacing:2px;
     color:var(--muted);
 }
 
-/* PROGRESS BAR */
-
 .progress-bar-wrap{
-    width:85%;
-    height:6px;
+    width:80%;
+    height:5px;
     background:#05141c;
-    margin-top:25px;
+    margin-top:12px;
 }
 
 #progressBar{
@@ -267,20 +288,20 @@ header{
 /* SYSTEM STATUS */
 
 .system-row{
-    margin-bottom:18px;
+    margin-bottom:10px;
 }
 
 .system-label{
     display:flex;
     justify-content:space-between;
-    font-size:11px;
+    font-size:9px;
     letter-spacing:2px;
 }
 
 .system-bar{
     height:4px;
     background:#08161d;
-    margin-top:7px;
+    margin-top:5px;
 }
 
 .system-fill{
@@ -289,32 +310,33 @@ header{
     box-shadow:0 0 10px var(--blue);
 }
 
-/* TASK SECTION */
+/* LOWER SECTION */
 
 .lower{
+    height:31vh;
     display:grid;
     grid-template-columns:2fr 1fr;
-    gap:18px;
-    padding:0 20px 20px;
+    gap:12px;
+    padding:0 20px 10px;
 }
 
 .tasks{
-    max-height:400px;
+    max-height:19vh;
     overflow-y:auto;
 }
 
 .task{
     display:grid;
-    grid-template-columns:35px 1fr 110px 80px;
+    grid-template-columns:30px 1fr 100px 80px;
     align-items:center;
-    gap:10px;
-    padding:14px 5px;
+    gap:8px;
+    padding:6px 5px;
     border-bottom:1px solid rgba(0,234,255,.12);
 }
 
 .task input{
-    width:18px;
-    height:18px;
+    width:15px;
+    height:15px;
     accent-color:var(--blue);
 }
 
@@ -324,16 +346,16 @@ header{
 }
 
 .task-name{
-    font-size:14px;
+    font-size:11px;
 }
 
 .task-date{
-    font-size:11px;
+    font-size:9px;
     color:var(--warning);
 }
 
 .task-priority{
-    font-size:9px;
+    font-size:8px;
     text-align:center;
     letter-spacing:1px;
 }
@@ -353,7 +375,8 @@ header{
 .delete{
     color:#56777b;
     cursor:pointer;
-    font-size:16px;
+    font-size:13px;
+    margin-left:5px;
 }
 
 /* BUTTONS */
@@ -362,9 +385,9 @@ button{
     background:transparent;
     border:1px solid var(--blue);
     color:var(--blue);
-    padding:10px 15px;
-    letter-spacing:2px;
-    font-size:10px;
+    padding:6px 10px;
+    letter-spacing:1px;
+    font-size:8px;
     cursor:pointer;
 }
 
@@ -373,69 +396,76 @@ button:hover{
     box-shadow:0 0 15px rgba(0,234,255,.3);
 }
 
-/* INPUTS */
-
-input,select{
+input,
+select{
     background:#020b11;
     border:1px solid rgba(0,234,255,.3);
     color:white;
-    padding:10px;
+    padding:8px;
     outline:none;
 }
 
 .form-row{
     display:flex;
-    gap:8px;
+    gap:6px;
     flex-wrap:wrap;
-    margin-bottom:12px;
+    margin-bottom:6px;
 }
 
 /* ALERTS */
 
+#alerts{
+    max-height:22vh;
+    overflow-y:auto;
+}
+
 .alert{
     border-left:2px solid var(--warning);
     background:rgba(255,209,102,.05);
-    padding:12px;
-    margin-bottom:10px;
+    padding:7px;
+    margin-bottom:6px;
 }
 
 .alert-date{
-    font-size:10px;
+    font-size:8px;
     color:var(--warning);
 }
 
 .alert-name{
-    font-size:13px;
-    margin-top:5px;
+    font-size:10px;
+    margin-top:3px;
 }
 
 /* TERMINAL */
 
 .terminal{
-    margin:0 20px 20px;
+    height:18vh;
+    margin:0 20px 10px;
     border:1px solid var(--border);
-    padding:18px;
+    padding:8px 15px;
     background:rgba(0,0,0,.55);
 }
 
 .terminal-output{
-    min-height:60px;
+    height:6vh;
+    overflow-y:auto;
     color:#91dfe8;
     font-family:monospace;
-    font-size:13px;
-    line-height:1.7;
+    font-size:10px;
+    line-height:1.5;
 }
 
 .command-row{
     display:flex;
     align-items:center;
-    margin-top:10px;
+    margin-top:4px;
 }
 
 .prompt{
     color:var(--blue);
     margin-right:10px;
     font-family:monospace;
+    font-size:10px;
 }
 
 #commandInput{
@@ -444,9 +474,11 @@ input,select{
     border:none;
     border-bottom:1px solid var(--border);
     font-family:monospace;
+    font-size:10px;
+    padding:5px;
 }
 
-/* MODAL */
+/* MODALS */
 
 .modal{
     display:none;
@@ -506,31 +538,28 @@ input,select{
     color:#71aeb6;
 }
 
-/* RESPONSIVE */
+/* MOBILE */
 
-@media(max-width:950px){
+@media(max-width:700px){
+
+    html,
+    body{
+        height:auto;
+        overflow:auto;
+    }
 
     .dashboard{
+        height:auto;
         grid-template-columns:1fr;
     }
 
     .lower{
+        height:auto;
         grid-template-columns:1fr;
     }
 
-    .reactor{
-        width:190px;
-        height:190px;
-    }
-
-    .reactor::before{
-        width:150px;
-        height:150px;
-    }
-
-    .reactor::after{
-        width:115px;
-        height:115px;
+    .panel{
+        min-height:250px;
     }
 
     .task{
@@ -542,13 +571,14 @@ input,select{
         grid-column:2;
     }
 
+    .terminal{
+        height:auto;
+    }
 }
 </style>
 </head>
 
 <body>
-
-<!-- BOOT SCREEN -->
 
 <div id="boot">
     <div class="boot-title">J.A.R.V.I.S.</div>
@@ -556,8 +586,6 @@ input,select{
         INITIALIZING SYSTEM...
     </div>
 </div>
-
-<!-- HEADER -->
 
 <header>
 
@@ -573,11 +601,7 @@ input,select{
 
 </header>
 
-<!-- TOP DASHBOARD -->
-
 <div class="dashboard">
-
-    <!-- SCHEDULE -->
 
     <section class="panel">
 
@@ -594,8 +618,6 @@ input,select{
         </button>
 
     </section>
-
-    <!-- CENTER REACTOR -->
 
     <section class="panel center-panel">
 
@@ -620,24 +642,20 @@ input,select{
         </div>
 
         <div class="progress-bar-wrap">
-
             <div id="progressBar"></div>
-
         </div>
 
         <div
             id="taskCount"
             style="
-            margin-top:15px;
-            font-size:11px;
+            margin-top:8px;
+            font-size:9px;
             letter-spacing:2px;
             color:#6ba6af;
             ">
         </div>
 
     </section>
-
-    <!-- SYSTEM STATUS -->
 
     <section class="panel">
 
@@ -663,7 +681,6 @@ input,select{
         </div>
 
         <div class="system-row">
-
             <div class="system-label">
                 <span>FITNESS</span>
                 <span>75%</span>
@@ -672,11 +689,9 @@ input,select{
             <div class="system-bar">
                 <div class="system-fill" style="width:75%"></div>
             </div>
-
         </div>
 
         <div class="system-row">
-
             <div class="system-label">
                 <span>CAREER</span>
                 <span>62%</span>
@@ -685,11 +700,9 @@ input,select{
             <div class="system-bar">
                 <div class="system-fill" style="width:62%"></div>
             </div>
-
         </div>
 
         <div class="system-row">
-
             <div class="system-label">
                 <span>ACADEMICS</span>
                 <span>84%</span>
@@ -698,7 +711,6 @@ input,select{
             <div class="system-bar">
                 <div class="system-fill" style="width:84%"></div>
             </div>
-
         </div>
 
         <button onclick="jarvisBriefing()">
@@ -708,8 +720,6 @@ input,select{
     </section>
 
 </div>
-
-<!-- TASKS -->
 
 <div class="lower">
 
@@ -739,8 +749,6 @@ input,select{
 
     </section>
 
-    <!-- ALERTS -->
-
     <section class="panel">
 
         <div class="panel-title">
@@ -752,8 +760,6 @@ input,select{
     </section>
 
 </div>
-
-<!-- TERMINAL -->
 
 <div class="terminal">
 
@@ -776,7 +782,7 @@ input,select{
 
         <input
             id="commandInput"
-            placeholder="Type: brief me, progress, what is due, focus mode..."
+            placeholder="Try: brief me, progress, what is due, focus mode..."
             onkeydown="handleCommand(event)"
         >
 
@@ -807,19 +813,9 @@ input,select{
         >
 
         <select id="taskPriority">
-
-            <option value="high">
-                High Priority
-            </option>
-
-            <option value="medium">
-                Medium Priority
-            </option>
-
-            <option value="low">
-                Low Priority
-            </option>
-
+            <option value="high">High Priority</option>
+            <option value="medium">Medium Priority</option>
+            <option value="low">Low Priority</option>
         </select>
 
         <button onclick="addTask()">
@@ -866,12 +862,32 @@ input,select{
 
 <script>
 
-/* ---------------------------
+/* =========================================
+   DATE HELPERS
+========================================= */
+
+function getDateOffset(days){
+
+    const d = new Date();
+
+    d.setDate(
+        d.getDate() + days
+    );
+
+    return d
+        .toISOString()
+        .split("T")[0];
+}
+
+
+/* =========================================
    DEFAULT DATA
---------------------------- */
+========================================= */
 
 let tasks =
-JSON.parse(localStorage.getItem("jarvisTasks")) || [
+JSON.parse(
+    localStorage.getItem("jarvisTasks")
+) || [
 
 {
     id:1,
@@ -909,29 +925,36 @@ JSON.parse(localStorage.getItem("jarvisTasks")) || [
 
 
 let schedule =
-JSON.parse(localStorage.getItem("jarvisSchedule")) || [
+JSON.parse(
+    localStorage.getItem("jarvisSchedule")
+) || [
 
 {
+    id:1,
     name:"Morning Training",
     time:"06:00"
 },
 
 {
+    id:2,
     name:"Breakfast / Prepare",
     time:"07:15"
 },
 
 {
+    id:3,
     name:"Work",
     time:"09:00"
 },
 
 {
+    id:4,
     name:"Cybersecurity Development",
     time:"16:00"
 },
 
 {
+    id:5,
     name:"Evening Review",
     time:"21:00"
 }
@@ -939,27 +962,9 @@ JSON.parse(localStorage.getItem("jarvisSchedule")) || [
 ];
 
 
-/* ---------------------------
-   DATE
---------------------------- */
-
-function getDateOffset(days){
-
-    let d = new Date();
-
-    d.setDate(
-        d.getDate() + days
-    );
-
-    return d
-        .toISOString()
-        .split("T")[0];
-}
-
-
-/* ---------------------------
+/* =========================================
    CLOCK
---------------------------- */
+========================================= */
 
 function updateClock(){
 
@@ -987,23 +992,25 @@ function updateClock(){
             }
         )
         .toUpperCase();
-
 }
 
-setInterval(updateClock,1000);
+setInterval(
+    updateClock,
+    1000
+);
 
 updateClock();
 
 
-/* ---------------------------
+/* =========================================
    SCHEDULE
---------------------------- */
+========================================= */
 
 function renderSchedule(){
 
     schedule.sort(
-        (a,b) =>
-        a.time.localeCompare(b.time)
+        (a,b)=>
+            a.time.localeCompare(b.time)
     );
 
     const holder =
@@ -1016,37 +1023,48 @@ function renderSchedule(){
         const div =
             document.createElement("div");
 
-        div.className="schedule-item";
+        div.className =
+            "schedule-item";
 
         div.innerHTML=`
 
-        <div class="schedule-time">
-            ${formatTime(event.time)}
-        </div>
+            <div class="schedule-time">
+                ${formatTime(event.time)}
+            </div>
 
-        <div class="schedule-name">
-            ${event.name}
-        </div>
+            <div class="schedule-name">
+                ${event.name}
+            </div>
+
+            <div
+                class="event-delete"
+                onclick="deleteEvent(${event.id})"
+            >
+                ✕
+            </div>
 
         `;
 
         holder.appendChild(div);
-
     });
-
 }
 
 
 function formatTime(time){
 
-    const [hour,minute] =
+    const parts =
         time.split(":");
 
-    const d = new Date();
+    const d =
+        new Date();
 
-    d.setHours(hour);
+    d.setHours(
+        Number(parts[0])
+    );
 
-    d.setMinutes(minute);
+    d.setMinutes(
+        Number(parts[1])
+    );
 
     return d.toLocaleTimeString(
         [],
@@ -1055,40 +1073,50 @@ function formatTime(time){
             minute:"2-digit"
         }
     );
-
 }
 
 
-/* ---------------------------
+function deleteEvent(id){
+
+    schedule =
+        schedule.filter(
+            e=>e.id !== id
+        );
+
+    saveData();
+
+    renderSchedule();
+
+    jarvisSay(
+        "Very good, sir. The engagement has been removed from your schedule."
+    );
+}
+
+
+/* =========================================
    TASKS
---------------------------- */
+========================================= */
 
 function renderTasks(){
 
     tasks.sort((a,b)=>{
 
         if(
-            a.completed !==
-            b.completed
+            a.completed !== b.completed
         ){
-
-            return a.completed
-                ? 1
-                : -1;
-
+            return a.completed ? 1 : -1;
         }
 
-        return new Date(a.due)
-            - new Date(b.due);
-
+        return (
+            new Date(a.due) -
+            new Date(b.due)
+        );
     });
-
 
     const holder =
         document.getElementById("tasks");
 
     holder.innerHTML="";
-
 
     tasks.forEach(task=>{
 
@@ -1105,38 +1133,38 @@ function renderTasks(){
 
         row.innerHTML=`
 
-        <input
-            type="checkbox"
-            ${task.completed ? "checked":""}
-            onchange="toggleTask(${task.id})"
-        >
-
-        <div class="task-name">
-            ${task.name}
-        </div>
-
-        <div class="task-date">
-            ${displayDueDate(task.due)}
-        </div>
-
-        <div
-            class="
-            task-priority
-            priority-${task.priority}
-            ">
-            ${task.priority.toUpperCase()}
-            <span
-                class="delete"
-                onclick="deleteTask(${task.id})"
+            <input
+                type="checkbox"
+                ${task.completed ? "checked":""}
+                onchange="toggleTask(${task.id})"
             >
-                ✕
-            </span>
-        </div>
 
+            <div class="task-name">
+                ${task.name}
+            </div>
+
+            <div class="task-date">
+                ${displayDueDate(task.due)}
+            </div>
+
+            <div
+                class="
+                    task-priority
+                    priority-${task.priority}
+                "
+            >
+                ${task.priority.toUpperCase()}
+
+                <span
+                    class="delete"
+                    onclick="deleteTask(${task.id})"
+                >
+                    ✕
+                </span>
+            </div>
         `;
 
         holder.appendChild(row);
-
     });
 
     updateProgress();
@@ -1144,7 +1172,6 @@ function renderTasks(){
     renderAlerts();
 
     saveData();
-
 }
 
 
@@ -1153,19 +1180,21 @@ function displayDueDate(dateString){
     const today =
         new Date();
 
-    today.setHours(0,0,0,0);
+    today.setHours(
+        0,0,0,0
+    );
 
     const due =
         new Date(
-            dateString + "T00:00:00"
+            dateString +
+            "T00:00:00"
         );
 
     const difference =
         Math.round(
-            (due-today) /
+            (due - today) /
             86400000
         );
-
 
     if(difference < 0){
         return "OVERDUE";
@@ -1179,10 +1208,11 @@ function displayDueDate(dateString){
         return "DUE TOMORROW";
     }
 
-    return "DUE IN " +
+    return (
+        "DUE IN " +
         difference +
-        " DAYS";
-
+        " DAYS"
+    );
 }
 
 
@@ -1193,11 +1223,21 @@ function toggleTask(id){
             x=>x.id === id
         );
 
+    if(!task){
+        return;
+    }
+
     task.completed =
         !task.completed;
 
     renderTasks();
 
+    if(task.completed){
+
+        jarvisSay(
+            "Excellent, sir. Objective complete."
+        );
+    }
 }
 
 
@@ -1209,7 +1249,6 @@ function deleteTask(id){
         );
 
     renderTasks();
-
 }
 
 
@@ -1222,12 +1261,15 @@ function clearCompleted(){
 
     renderTasks();
 
+    jarvisSay(
+        "Completed objectives have been cleared, sir."
+    );
 }
 
 
-/* ---------------------------
+/* =========================================
    PROGRESS
---------------------------- */
+========================================= */
 
 function updateProgress(){
 
@@ -1239,68 +1281,65 @@ function updateProgress(){
             t=>t.completed
         ).length;
 
-
     const percent =
         total === 0
         ? 0
         : Math.round(
-            complete / total * 100
+            complete /
+            total *
+            100
         );
 
+    document
+        .getElementById(
+            "progressPercent"
+        )
+        .innerText =
+            percent + "%";
 
     document
-    .getElementById(
-        "progressPercent"
-    )
-    .innerText =
-        percent + "%";
-
-
-    document
-    .getElementById(
-        "progressBar"
-    )
-    .style.width =
-        percent + "%";
-
+        .getElementById(
+            "progressBar"
+        )
+        .style.width =
+            percent + "%";
 
     document
-    .getElementById(
-        "productivityPercent"
-    )
-    .innerText =
-        percent + "%";
-
-
-    document
-    .getElementById(
-        "productivityBar"
-    )
-    .style.width =
-        percent + "%";
-
+        .getElementById(
+            "productivityPercent"
+        )
+        .innerText =
+            percent + "%";
 
     document
-    .getElementById(
-        "taskCount"
-    )
-    .innerText =
-        complete +
-        " / " +
-        total +
-        " OBJECTIVES COMPLETE";
+        .getElementById(
+            "productivityBar"
+        )
+        .style.width =
+            percent + "%";
 
+    document
+        .getElementById(
+            "taskCount"
+        )
+        .innerText =
+            complete +
+            " / " +
+            total +
+            " OBJECTIVES COMPLETE";
 }
 
 
-/* ---------------------------
+/* =========================================
    ALERTS
---------------------------- */
+========================================= */
 
 function renderAlerts(){
 
     const holder =
-        document.getElementById("alerts");
+        document.getElementById(
+            "alerts"
+        );
 
     holder.innerHTML="";
 
@@ -1309,76 +1348,75 @@ function renderAlerts(){
             task=>!task.completed
         );
 
-    if(openTasks.length === 0){
+    if(
+        openTasks.length === 0
+    ){
 
         holder.innerHTML=`
 
-        <div class="alert">
+            <div class="alert">
 
-        <div class="alert-name">
-            ✓ ALL OBJECTIVES COMPLETE
-        </div>
+                <div class="alert-name">
+                    ✓ ALL OBJECTIVES COMPLETE
+                </div>
 
-        </div>
-
+            </div>
         `;
 
         return;
-
     }
 
-
     openTasks
-    .slice(0,4)
-    .forEach(task=>{
+        .slice(0,5)
+        .forEach(task=>{
 
-        const div =
-            document.createElement("div");
+            const div =
+                document.createElement(
+                    "div"
+                );
 
-        div.className="alert";
+            div.className =
+                "alert";
 
-        div.innerHTML=`
+            div.innerHTML=`
 
-        <div class="alert-date">
-            ${displayDueDate(task.due)}
-        </div>
+                <div class="alert-date">
+                    ${displayDueDate(task.due)}
+                </div>
 
-        <div class="alert-name">
-            ⚠ ${task.name}
-        </div>
+                <div class="alert-name">
+                    ⚠ ${task.name}
+                </div>
+            `;
 
-        `;
-
-        holder.appendChild(div);
-
-    });
-
+            holder.appendChild(div);
+        });
 }
 
 
-/* ---------------------------
+/* =========================================
    TASK MODAL
---------------------------- */
+========================================= */
 
 function openTaskModal(){
 
     document
-    .getElementById(
-        "taskModal"
-    )
-    .style.display="flex";
-
+        .getElementById(
+            "taskModal"
+        )
+        .style.display =
+            "flex";
 }
 
 
 function closeTaskModal(){
 
     document
-    .getElementById(
-        "taskModal"
-    )
-    .style.display="none";
-
+        .getElementById(
+            "taskModal"
+        )
+        .style.display =
+            "none";
 }
 
 
@@ -1388,31 +1426,35 @@ function addTask(){
         document
         .getElementById(
             "taskName"
-        ).value.trim();
+        )
+        .value
+        .trim();
 
     const due =
         document
         .getElementById(
             "taskDate"
-        ).value;
+        )
+        .value;
 
     const priority =
         document
         .getElementById(
             "taskPriority"
-        ).value;
+        )
+        .value;
 
-
-    if(!name || !due){
+    if(
+        !name ||
+        !due
+    ){
 
         jarvisSay(
-            "Objective name and due date required."
+            "Sir, I'll require both an objective and a due date."
         );
 
         return;
-
     }
-
 
     tasks.push({
 
@@ -1425,50 +1467,47 @@ function addTask(){
         priority:priority,
 
         completed:false
-
     });
 
-
     document
-    .getElementById(
-        "taskName"
-    ).value="";
-
+        .getElementById(
+            "taskName"
+        )
+        .value="";
 
     closeTaskModal();
 
     renderTasks();
 
     jarvisSay(
-        "Objective added."
+        "Very good, sir. I've added the objective."
     );
-
 }
 
 
-/* ---------------------------
+/* =========================================
    EVENT MODAL
---------------------------- */
+========================================= */
 
 function openEventModal(){
 
     document
-    .getElementById(
-        "eventModal"
-    )
-    .style.display="flex";
-
+        .getElementById(
+            "eventModal"
+        )
+        .style.display =
+            "flex";
 }
 
 
 function closeEventModal(){
 
     document
-    .getElementById(
-        "eventModal"
-    )
-    .style.display="none";
-
+        .getElementById(
+            "eventModal"
+        )
+        .style.display =
+            "none";
 }
 
 
@@ -1478,31 +1517,49 @@ function addEvent(){
         document
         .getElementById(
             "eventName"
-        ).value.trim();
+        )
+        .value
+        .trim();
 
     const time =
         document
         .getElementById(
             "eventTime"
-        ).value;
+        )
+        .value;
 
-
-    if(!name || !time){
+    if(
+        !name ||
+        !time
+    ){
 
         jarvisSay(
-            "Event name and time required."
+            "Sir, I'll require an event name and a time."
         );
 
         return;
-
     }
 
-
     schedule.push({
-        name,
-        time
+
+        id:Date.now(),
+
+        name:name,
+
+        time:time
     });
 
+    document
+        .getElementById(
+            "eventName"
+        )
+        .value="";
+
+    document
+        .getElementById(
+            "eventTime"
+        )
+        .value="";
 
     saveData();
 
@@ -1511,15 +1568,14 @@ function addEvent(){
     closeEventModal();
 
     jarvisSay(
-        "Schedule updated."
+        "Certainly, sir. Your schedule has been updated."
     );
-
 }
 
 
-/* ---------------------------
+/* =========================================
    STORAGE
---------------------------- */
+========================================= */
 
 function saveData(){
 
@@ -1532,17 +1588,201 @@ function saveData(){
         "jarvisSchedule",
         JSON.stringify(schedule)
     );
-
 }
 
 
-/* ---------------------------
-   JARVIS COMMANDS
---------------------------- */
+/* =========================================
+   TERMINAL
+========================================= */
+
+function terminal(text){
+
+    const output =
+        document.getElementById(
+            "terminalOutput"
+        );
+
+    output.innerHTML +=
+        "<br>" + text;
+
+    output.scrollTop =
+        output.scrollHeight;
+}
+
+
+/* =========================================
+   BRITISH JARVIS VOICE
+========================================= */
+
+let jarvisVoice = null;
+
+
+function loadJarvisVoice(){
+
+    const voices =
+        window
+        .speechSynthesis
+        .getVoices();
+
+    const preferredNames = [
+
+        "Microsoft Ryan",
+
+        "Microsoft George",
+
+        "Google UK English Male",
+
+        "Daniel"
+    ];
+
+    for(
+        const preferred
+        of preferredNames
+    ){
+
+        const found =
+            voices.find(
+                voice =>
+                    voice.name
+                    .toLowerCase()
+                    .includes(
+                        preferred
+                        .toLowerCase()
+                    )
+            );
+
+        if(found){
+
+            jarvisVoice =
+                found;
+
+            console.log(
+                "JARVIS VOICE:",
+                found.name
+            );
+
+            return;
+        }
+    }
+
+    jarvisVoice =
+        voices.find(
+            voice => {
+
+                const name =
+                    voice.name
+                    .toLowerCase();
+
+                return (
+                    voice.lang
+                    .toLowerCase()
+                    .includes("en-gb")
+                    &&
+                    (
+                        name.includes("male")
+                        ||
+                        name.includes("ryan")
+                        ||
+                        name.includes("george")
+                        ||
+                        name.includes("daniel")
+                    )
+                );
+            }
+        );
+
+    if(!jarvisVoice){
+
+        jarvisVoice =
+            voices.find(
+                voice =>
+                    voice.lang
+                    .toLowerCase()
+                    .includes("en-gb")
+            );
+    }
+}
+
+
+loadJarvisVoice();
+
+
+if(
+    "speechSynthesis"
+    in window
+){
+
+    window
+        .speechSynthesis
+        .onvoiceschanged =
+            loadJarvisVoice;
+}
+
+
+function jarvisSay(message){
+
+    terminal(
+        "JARVIS: " +
+        message
+    );
+
+    if(
+        !(
+            "speechSynthesis"
+            in window
+        )
+    ){
+        return;
+    }
+
+    window
+        .speechSynthesis
+        .cancel();
+
+    const speech =
+        new SpeechSynthesisUtterance(
+            message
+        );
+
+    if(jarvisVoice){
+
+        speech.voice =
+            jarvisVoice;
+    }
+
+    speech.lang =
+        "en-GB";
+
+    /*
+       Lower pitch + slightly slower
+       creates a richer, calmer voice.
+    */
+
+    speech.rate =
+        0.84;
+
+    speech.pitch =
+        0.72;
+
+    speech.volume =
+        1;
+
+    window
+        .speechSynthesis
+        .speak(speech);
+}
+
+
+/* =========================================
+   COMMAND TERMINAL
+========================================= */
 
 function handleCommand(event){
 
-    if(event.key !== "Enter"){
+    if(
+        event.key !==
+        "Enter"
+    ){
         return;
     }
 
@@ -1559,34 +1799,37 @@ function handleCommand(event){
         return;
     }
 
-
-    processCommand(command);
+    processCommand(
+        command
+    );
 
     input.value="";
-
 }
 
 
 function processCommand(command){
 
     terminal(
-        "> " + command
+        "> " +
+        command
     );
 
-
     if(
-        command.includes("brief")
+        command.includes(
+            "brief"
+        )
     ){
 
         jarvisBriefing();
 
         return;
-
     }
 
 
     if(
-        command.includes("progress")
+        command.includes(
+            "progress"
+        )
     ){
 
         const complete =
@@ -1596,32 +1839,37 @@ function processCommand(command){
 
         const percent =
             tasks.length
-            ? Math.round(
+            ?
+            Math.round(
                 complete /
                 tasks.length *
                 100
             )
-            : 0;
+            :
+            0;
 
         jarvisSay(
-            "Daily productivity is currently " +
+            "Sir, daily productivity currently stands at " +
             percent +
             " percent. " +
             complete +
             " of " +
             tasks.length +
-            " objectives complete."
+            " objectives have been completed."
         );
 
         return;
-
     }
 
 
     if(
-        command.includes("due")
+        command.includes(
+            "due"
+        )
         ||
-        command.includes("deadline")
+        command.includes(
+            "deadline"
+        )
     ){
 
         const next =
@@ -1631,94 +1879,163 @@ function processCommand(command){
             )
             .sort(
                 (a,b)=>
-                new Date(a.due)
-                -
-                new Date(b.due)
+                    new Date(a.due)
+                    -
+                    new Date(b.due)
             )[0];
-
 
         if(next){
 
             jarvisSay(
-                "Your next objective is " +
+                "Your most immediate objective is " +
                 next.name +
-                ". " +
+                ". It is " +
                 displayDueDate(
                     next.due
-                ) +
-                "."
+                )
+                .toLowerCase() +
+                ", sir."
             );
 
         }else{
 
             jarvisSay(
-                "There are no remaining objectives."
+                "Splendid. You have no remaining objectives, sir."
             );
-
         }
 
         return;
-
     }
 
 
     if(
-        command.includes("focus")
+        command.includes(
+            "focus"
+        )
     ){
 
         startFocusMode();
 
         return;
-
     }
 
 
     if(
-        command.includes("time")
+        command.includes(
+            "time"
+        )
     ){
 
         jarvisSay(
             "The current time is " +
             new Date()
-            .toLocaleTimeString()
+            .toLocaleTimeString(
+                [],
+                {
+                    hour:"numeric",
+                    minute:"2-digit"
+                }
+            ) +
+            ", sir."
         );
 
         return;
-
     }
 
 
     if(
-        command.includes("hello")
-        ||
-        command.includes("hey jarvis")
+        command.includes(
+            "schedule"
+        )
     ){
 
+        if(
+            schedule.length === 0
+        ){
+
+            jarvisSay(
+                "Your schedule is presently clear, sir."
+            );
+
+            return;
+        }
+
+        const first =
+            schedule
+            .slice()
+            .sort(
+                (a,b)=>
+                    a.time.localeCompare(
+                        b.time
+                    )
+            )[0];
+
         jarvisSay(
-            "Hello. All systems are operational. How may I assist you?"
+            "You have " +
+            schedule.length +
+            " engagements scheduled. Your first is " +
+            first.name +
+            " at " +
+            formatTime(
+                first.time
+            ) +
+            "."
         );
 
         return;
+    }
 
+
+    if(
+        command.includes(
+            "hello"
+        )
+        ||
+        command.includes(
+            "hey jarvis"
+        )
+        ||
+        command === "jarvis"
+    ){
+
+        jarvisSay(
+            "Good day, sir. All systems are operational. How may I be of assistance?"
+        );
+
+        return;
+    }
+
+
+    if(
+        command.includes(
+            "thank"
+        )
+    ){
+
+        jarvisSay(
+            "Always a pleasure, sir."
+        );
+
+        return;
     }
 
 
     jarvisSay(
-        "Command not currently recognized. Try briefing, progress, due dates, or focus mode."
+        "I'm afraid that command is not yet within my current capabilities, sir. You might try asking for your briefing, progress, deadlines, schedule, time, or focus mode."
     );
-
 }
 
 
-/* ---------------------------
-   BRIEFING
---------------------------- */
+/* =========================================
+   MORNING BRIEFING
+========================================= */
 
 function jarvisBriefing(){
 
     const remaining =
         tasks.filter(
-            task=>!task.completed
+            task=>
+                !task.completed
         );
 
     const today =
@@ -1728,105 +2045,138 @@ function jarvisBriefing(){
 
     const dueToday =
         remaining.filter(
-            task=>task.due === today
+            task=>
+                task.due ===
+                today
         );
-
 
     let message =
 
-        "Good morning. " +
+        "Good morning, sir. All systems are fully operational. ";
+
+    message +=
 
         "You have " +
         schedule.length +
-        " scheduled events today. " +
-
+        " scheduled engagements today, and " +
         remaining.length +
-        " objectives remain. ";
+        " outstanding objectives. ";
 
 
-    if(dueToday.length){
+    if(
+        dueToday.length > 0
+    ){
 
         message +=
 
-        dueToday.length +
-        " objective" +
-
-        (
-            dueToday.length === 1
-            ? " is "
-            : "s are "
-        )
-
-        +
-
-        "due today. ";
-
+            dueToday.length +
+            (
+                dueToday.length === 1
+                ?
+                " objective is "
+                :
+                " objectives are "
+            )
+            +
+            "due today. ";
     }
 
 
-    if(remaining.length){
+    if(
+        remaining.length > 0
+    ){
 
         const next =
-            [...remaining]
+            remaining
+            .slice()
             .sort(
                 (a,b)=>
-                new Date(a.due)
-                -
-                new Date(b.due)
+                    new Date(a.due)
+                    -
+                    new Date(b.due)
             )[0];
 
-
         message +=
 
-        "Highest immediate priority: " +
-        next.name +
-        ".";
-
-    }else{
-
-        message +=
-
-        "All objectives have been completed.";
-
+            "Your most immediate priority is " +
+            next.name +
+            ". ";
     }
 
 
-    jarvisSay(message);
+    if(
+        schedule.length > 0
+    ){
 
+        const first =
+            schedule
+            .slice()
+            .sort(
+                (a,b)=>
+                    a.time.localeCompare(
+                        b.time
+                    )
+            )[0];
+
+        message +=
+
+            "Your first scheduled engagement is " +
+            first.name +
+            " at " +
+            formatTime(
+                first.time
+            ) +
+            ". ";
+    }
+
+
+    if(
+        remaining.length === 0
+    ){
+
+        message +=
+
+            "All objectives have been completed. Rather efficient, if I may say so.";
+    }
+
+    jarvisSay(
+        message
+    );
 }
 
 
-/* ---------------------------
+/* =========================================
    FOCUS MODE
---------------------------- */
+========================================= */
 
-let focusInterval;
+let focusInterval = null;
+
 
 function startFocusMode(){
 
     const unfinished =
         tasks
         .filter(
-            task=>!task.completed
+            task=>
+                !task.completed
         )
         .sort(
             (a,b)=>
-            new Date(a.due)
-            -
-            new Date(b.due)
+                new Date(a.due)
+                -
+                new Date(b.due)
         );
 
-
-    if(!unfinished.length){
+    if(
+        unfinished.length === 0
+    ){
 
         jarvisSay(
-            "No unfinished objectives available for focus mode."
+            "There are no unfinished objectives requiring your attention, sir."
         );
 
         return;
-
     }
-
 
     const task =
         unfinished[0];
@@ -1834,132 +2184,77 @@ function startFocusMode(){
     let seconds =
         25 * 60;
 
-
     clearInterval(
         focusInterval
     );
 
-
     jarvisSay(
-        "Focus mode activated. Current objective: " +
+        "Focus mode activated, sir. Your current objective is " +
         task.name +
-        ". Twenty five minute focus session initiated."
+        ". I've initiated a twenty five minute concentration period."
     );
-
 
     focusInterval =
         setInterval(()=>{
 
             seconds--;
 
-
             const mins =
                 Math.floor(
-                    seconds / 60
+                    seconds /
+                    60
                 );
 
             const secs =
-                seconds % 60;
+                seconds %
+                60;
 
+            document
+                .getElementById(
+                    "terminalOutput"
+                )
+                .innerHTML =
 
-            terminal(
-                "FOCUS // " +
+                "FOCUS MODE ACTIVE<br>" +
+
+                "OBJECTIVE: " +
                 task.name +
-                " // " +
+                "<br>" +
+
+                "TIME REMAINING: " +
                 mins +
                 ":" +
-                String(secs)
-                .padStart(2,"0")
-            );
+                String(
+                    secs
+                )
+                .padStart(
+                    2,
+                    "0"
+                );
 
-
-            if(seconds <= 0){
+            if(
+                seconds <= 0
+            ){
 
                 clearInterval(
                     focusInterval
                 );
 
-                jarvisSay(
-                    "Focus session complete."
-                );
+                focusInterval =
+                    null;
 
+                jarvisSay(
+                    "Focus session complete, sir. Shall we consider that objective handled?"
+                );
             }
 
         },1000);
-
 }
 
 
-/* ---------------------------
-   TERMINAL OUTPUT
---------------------------- */
-
-function terminal(text){
-
-    const output =
-        document
-        .getElementById(
-            "terminalOutput"
-        );
-
-    output.innerHTML +=
-
-        "<br>" +
-        text;
-
-    output.scrollTop =
-        output.scrollHeight;
-
-}
-
-
-/* ---------------------------
-   JARVIS SPEECH
---------------------------- */
-
-function jarvisSay(message){
-
-    terminal(
-        "JARVIS: " +
-        message
-    );
-
-
-    if(
-        "speechSynthesis"
-        in window
-    ){
-
-        window
-        .speechSynthesis
-        .cancel();
-
-
-        const speech =
-            new SpeechSynthesisUtterance(
-                message
-            );
-
-
-        speech.rate=.92;
-
-        speech.pitch=.8;
-
-        speech.volume=.8;
-
-
-        window
-        .speechSynthesis
-        .speak(speech);
-
-    }
-
-}
-
-
-/* ---------------------------
-   VOICE COMMAND
---------------------------- */
+/* =========================================
+   VOICE RECOGNITION
+========================================= */
 
 function listenForVoice(){
 
@@ -1968,89 +2263,91 @@ function listenForVoice(){
         ||
         window.webkitSpeechRecognition;
 
-
     if(!Recognition){
 
         jarvisSay(
-            "Voice recognition is not supported by this browser."
+            "I'm afraid voice recognition is unavailable in this browser, sir."
         );
 
         return;
-
     }
-
 
     const recognition =
         new Recognition();
 
+    recognition.lang =
+        "en-US";
 
-    recognition.lang="en-US";
+    recognition.interimResults =
+        false;
 
-    recognition.start();
-
+    recognition.continuous =
+        false;
 
     terminal(
         "VOICE INPUT ACTIVE..."
     );
 
+    recognition.start();
 
     recognition.onresult =
         function(event){
 
             const command =
-                event.results[0][0]
+                event
+                .results[0][0]
                 .transcript;
 
-            terminal(
-                "> " + command
-            );
-
             processCommand(
-                command.toLowerCase()
+                command
+                .toLowerCase()
             );
-
         };
 
+    recognition.onerror =
+        function(){
+
+            jarvisSay(
+                "I didn't quite catch that, sir."
+            );
+        };
 }
 
 
-/* ---------------------------
+/* =========================================
    BOOT SEQUENCE
---------------------------- */
+========================================= */
 
 function bootSequence(){
 
-    const messages=[
+    const messages = [
 
         "INITIALIZING SYSTEM...",
 
         "LOADING COMMAND INTERFACE...",
 
-        "CONNECTING PRODUCTIVITY CORE...",
+        "CALIBRATING NEURAL VOICE...",
 
         "SCANNING DAILY OBJECTIVES...",
 
-        "J.A.R.V.I.S. ONLINE"
+        "LOADING SCHEDULE...",
 
+        "J.A.R.V.I.S. ONLINE"
     ];
 
-
-    let i=0;
-
+    let i = 0;
 
     const interval =
         setInterval(()=>{
 
             document
-            .getElementById(
-                "bootMessage"
-            )
-            .innerText =
-                messages[i];
-
+                .getElementById(
+                    "bootMessage"
+                )
+                .innerText =
+                    messages[i];
 
             i++;
-
 
             if(
                 i ===
@@ -2061,33 +2358,29 @@ function bootSequence(){
                     interval
                 );
 
-
                 setTimeout(()=>{
 
                     document
-                    .getElementById(
-                        "boot"
-                    )
-                    .style
-                    .display="none";
-
+                        .getElementById(
+                            "boot"
+                        )
+                        .style.display =
+                            "none";
 
                     jarvisSay(
-                        "All systems online."
+                        "All systems are fully operational, sir. At your service."
                     );
 
-                },600);
-
+                },500);
             }
 
-        },550);
-
+        },450);
 }
 
 
-/* ---------------------------
-   START
---------------------------- */
+/* =========================================
+   START SYSTEM
+========================================= */
 
 renderSchedule();
 
