@@ -1,0 +1,2101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>J.A.R.V.I.S. Command Center</title>
+
+<style>
+:root{
+    --blue:#00eaff;
+    --blue2:#0077ff;
+    --dark:#02070d;
+    --panel:rgba(0,234,255,.06);
+    --border:rgba(0,234,255,.35);
+    --text:#d9fbff;
+    --muted:#6ba6af;
+    --danger:#ff4c67;
+    --warning:#ffd166;
+    --green:#5cffab;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:Arial, Helvetica, sans-serif;
+    background:
+        radial-gradient(circle at center,#082433 0%,#02070d 45%,#000 100%);
+    color:var(--text);
+    min-height:100vh;
+    overflow-x:hidden;
+}
+
+/* GRID BACKGROUND */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+        linear-gradient(rgba(0,234,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(0,234,255,.035) 1px,transparent 1px);
+    background-size:40px 40px;
+    pointer-events:none;
+}
+
+/* SCAN LINE */
+
+body::after{
+    content:"";
+    position:fixed;
+    left:0;
+    right:0;
+    height:2px;
+    background:rgba(0,234,255,.25);
+    box-shadow:0 0 20px var(--blue);
+    animation:scan 8s linear infinite;
+    pointer-events:none;
+}
+
+@keyframes scan{
+    from{top:-5%;}
+    to{top:105%;}
+}
+
+/* HEADER */
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:22px 35px;
+    border-bottom:1px solid var(--border);
+}
+
+.logo{
+    font-size:24px;
+    letter-spacing:8px;
+    color:var(--blue);
+    text-shadow:0 0 18px var(--blue);
+}
+
+.status{
+    font-size:11px;
+    letter-spacing:3px;
+    color:var(--green);
+}
+
+.timeBox{
+    text-align:right;
+}
+
+#clock{
+    font-size:25px;
+    letter-spacing:3px;
+}
+
+#date{
+    color:var(--muted);
+    font-size:12px;
+    margin-top:5px;
+}
+
+/* DASHBOARD */
+
+.dashboard{
+    display:grid;
+    grid-template-columns:1fr 1.3fr 1fr;
+    gap:18px;
+    padding:20px;
+}
+
+.panel{
+    background:var(--panel);
+    border:1px solid var(--border);
+    backdrop-filter:blur(10px);
+    min-height:250px;
+    padding:18px;
+    position:relative;
+    box-shadow:inset 0 0 30px rgba(0,234,255,.025);
+}
+
+.panel::before{
+    content:"";
+    position:absolute;
+    width:30px;
+    height:30px;
+    top:-1px;
+    left:-1px;
+    border-top:2px solid var(--blue);
+    border-left:2px solid var(--blue);
+}
+
+.panel::after{
+    content:"";
+    position:absolute;
+    width:30px;
+    height:30px;
+    bottom:-1px;
+    right:-1px;
+    border-bottom:2px solid var(--blue);
+    border-right:2px solid var(--blue);
+}
+
+.panel-title{
+    font-size:12px;
+    letter-spacing:4px;
+    color:var(--blue);
+    margin-bottom:18px;
+}
+
+/* SCHEDULE */
+
+.schedule-item{
+    display:grid;
+    grid-template-columns:70px 1fr;
+    padding:12px 0;
+    border-bottom:1px solid rgba(0,234,255,.12);
+}
+
+.schedule-time{
+    color:var(--blue);
+}
+
+.schedule-name{
+    font-size:14px;
+}
+
+/* CENTER */
+
+.center-panel{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+}
+
+.reactor{
+    width:240px;
+    height:240px;
+    border-radius:50%;
+    border:2px solid var(--blue);
+    box-shadow:
+        0 0 30px var(--blue),
+        inset 0 0 30px var(--blue);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    position:relative;
+    animation:pulse 3s infinite;
+}
+
+.reactor::before{
+    content:"";
+    position:absolute;
+    width:190px;
+    height:190px;
+    border-radius:50%;
+    border:8px dashed rgba(0,234,255,.5);
+    animation:spin 12s linear infinite;
+}
+
+.reactor::after{
+    content:"";
+    position:absolute;
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    border:2px solid rgba(0,234,255,.65);
+    animation:spinReverse 8s linear infinite;
+}
+
+@keyframes spin{
+    to{transform:rotate(360deg);}
+}
+
+@keyframes spinReverse{
+    to{transform:rotate(-360deg);}
+}
+
+@keyframes pulse{
+    50%{
+        box-shadow:
+            0 0 55px var(--blue),
+            inset 0 0 50px var(--blue);
+    }
+}
+
+.progress-center{
+    z-index:5;
+    text-align:center;
+}
+
+#progressPercent{
+    font-size:45px;
+    color:white;
+    text-shadow:0 0 15px var(--blue);
+}
+
+.progress-label{
+    font-size:10px;
+    letter-spacing:3px;
+    color:var(--muted);
+}
+
+/* PROGRESS BAR */
+
+.progress-bar-wrap{
+    width:85%;
+    height:6px;
+    background:#05141c;
+    margin-top:25px;
+}
+
+#progressBar{
+    width:0%;
+    height:100%;
+    background:var(--blue);
+    box-shadow:0 0 15px var(--blue);
+    transition:.5s;
+}
+
+/* SYSTEM STATUS */
+
+.system-row{
+    margin-bottom:18px;
+}
+
+.system-label{
+    display:flex;
+    justify-content:space-between;
+    font-size:11px;
+    letter-spacing:2px;
+}
+
+.system-bar{
+    height:4px;
+    background:#08161d;
+    margin-top:7px;
+}
+
+.system-fill{
+    height:100%;
+    background:var(--blue);
+    box-shadow:0 0 10px var(--blue);
+}
+
+/* TASK SECTION */
+
+.lower{
+    display:grid;
+    grid-template-columns:2fr 1fr;
+    gap:18px;
+    padding:0 20px 20px;
+}
+
+.tasks{
+    max-height:400px;
+    overflow-y:auto;
+}
+
+.task{
+    display:grid;
+    grid-template-columns:35px 1fr 110px 80px;
+    align-items:center;
+    gap:10px;
+    padding:14px 5px;
+    border-bottom:1px solid rgba(0,234,255,.12);
+}
+
+.task input{
+    width:18px;
+    height:18px;
+    accent-color:var(--blue);
+}
+
+.task.completed .task-name{
+    text-decoration:line-through;
+    color:#56777b;
+}
+
+.task-name{
+    font-size:14px;
+}
+
+.task-date{
+    font-size:11px;
+    color:var(--warning);
+}
+
+.task-priority{
+    font-size:9px;
+    text-align:center;
+    letter-spacing:1px;
+}
+
+.priority-high{
+    color:var(--danger);
+}
+
+.priority-medium{
+    color:var(--warning);
+}
+
+.priority-low{
+    color:var(--green);
+}
+
+.delete{
+    color:#56777b;
+    cursor:pointer;
+    font-size:16px;
+}
+
+/* BUTTONS */
+
+button{
+    background:transparent;
+    border:1px solid var(--blue);
+    color:var(--blue);
+    padding:10px 15px;
+    letter-spacing:2px;
+    font-size:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:rgba(0,234,255,.12);
+    box-shadow:0 0 15px rgba(0,234,255,.3);
+}
+
+/* INPUTS */
+
+input,select{
+    background:#020b11;
+    border:1px solid rgba(0,234,255,.3);
+    color:white;
+    padding:10px;
+    outline:none;
+}
+
+.form-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-bottom:12px;
+}
+
+/* ALERTS */
+
+.alert{
+    border-left:2px solid var(--warning);
+    background:rgba(255,209,102,.05);
+    padding:12px;
+    margin-bottom:10px;
+}
+
+.alert-date{
+    font-size:10px;
+    color:var(--warning);
+}
+
+.alert-name{
+    font-size:13px;
+    margin-top:5px;
+}
+
+/* TERMINAL */
+
+.terminal{
+    margin:0 20px 20px;
+    border:1px solid var(--border);
+    padding:18px;
+    background:rgba(0,0,0,.55);
+}
+
+.terminal-output{
+    min-height:60px;
+    color:#91dfe8;
+    font-family:monospace;
+    font-size:13px;
+    line-height:1.7;
+}
+
+.command-row{
+    display:flex;
+    align-items:center;
+    margin-top:10px;
+}
+
+.prompt{
+    color:var(--blue);
+    margin-right:10px;
+    font-family:monospace;
+}
+
+#commandInput{
+    flex:1;
+    background:transparent;
+    border:none;
+    border-bottom:1px solid var(--border);
+    font-family:monospace;
+}
+
+/* MODAL */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    justify-content:center;
+    align-items:center;
+    z-index:100;
+}
+
+.modal-box{
+    background:#041016;
+    border:1px solid var(--blue);
+    padding:25px;
+    width:90%;
+    max-width:450px;
+    box-shadow:0 0 40px rgba(0,234,255,.3);
+}
+
+.modal h2{
+    color:var(--blue);
+    letter-spacing:4px;
+    margin-bottom:20px;
+    font-size:16px;
+}
+
+.modal input,
+.modal select{
+    width:100%;
+    margin-bottom:12px;
+}
+
+/* BOOT SCREEN */
+
+#boot{
+    position:fixed;
+    inset:0;
+    background:#000;
+    z-index:9999;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    color:var(--blue);
+    font-family:monospace;
+}
+
+.boot-title{
+    font-size:35px;
+    letter-spacing:10px;
+    text-shadow:0 0 20px var(--blue);
+}
+
+.boot-message{
+    margin-top:20px;
+    color:#71aeb6;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:950px){
+
+    .dashboard{
+        grid-template-columns:1fr;
+    }
+
+    .lower{
+        grid-template-columns:1fr;
+    }
+
+    .reactor{
+        width:190px;
+        height:190px;
+    }
+
+    .reactor::before{
+        width:150px;
+        height:150px;
+    }
+
+    .reactor::after{
+        width:115px;
+        height:115px;
+    }
+
+    .task{
+        grid-template-columns:30px 1fr;
+    }
+
+    .task-date,
+    .task-priority{
+        grid-column:2;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- BOOT SCREEN -->
+
+<div id="boot">
+    <div class="boot-title">J.A.R.V.I.S.</div>
+    <div class="boot-message" id="bootMessage">
+        INITIALIZING SYSTEM...
+    </div>
+</div>
+
+<!-- HEADER -->
+
+<header>
+
+    <div>
+        <div class="logo">J.A.R.V.I.S.</div>
+        <div class="status">● SYSTEM ONLINE</div>
+    </div>
+
+    <div class="timeBox">
+        <div id="clock"></div>
+        <div id="date"></div>
+    </div>
+
+</header>
+
+<!-- TOP DASHBOARD -->
+
+<div class="dashboard">
+
+    <!-- SCHEDULE -->
+
+    <section class="panel">
+
+        <div class="panel-title">
+            DAILY SCHEDULE
+        </div>
+
+        <div id="schedule"></div>
+
+        <br>
+
+        <button onclick="openEventModal()">
+            + ADD EVENT
+        </button>
+
+    </section>
+
+    <!-- CENTER REACTOR -->
+
+    <section class="panel center-panel">
+
+        <div class="panel-title">
+            DAILY PERFORMANCE
+        </div>
+
+        <div class="reactor">
+
+            <div class="progress-center">
+
+                <div id="progressPercent">
+                    0%
+                </div>
+
+                <div class="progress-label">
+                    OBJECTIVES COMPLETE
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="progress-bar-wrap">
+
+            <div id="progressBar"></div>
+
+        </div>
+
+        <div
+            id="taskCount"
+            style="
+            margin-top:15px;
+            font-size:11px;
+            letter-spacing:2px;
+            color:#6ba6af;
+            ">
+        </div>
+
+    </section>
+
+    <!-- SYSTEM STATUS -->
+
+    <section class="panel">
+
+        <div class="panel-title">
+            SYSTEM STATUS
+        </div>
+
+        <div class="system-row">
+
+            <div class="system-label">
+                <span>PRODUCTIVITY</span>
+                <span id="productivityPercent">0%</span>
+            </div>
+
+            <div class="system-bar">
+                <div
+                    id="productivityBar"
+                    class="system-fill"
+                    style="width:0%">
+                </div>
+            </div>
+
+        </div>
+
+        <div class="system-row">
+
+            <div class="system-label">
+                <span>FITNESS</span>
+                <span>75%</span>
+            </div>
+
+            <div class="system-bar">
+                <div class="system-fill" style="width:75%"></div>
+            </div>
+
+        </div>
+
+        <div class="system-row">
+
+            <div class="system-label">
+                <span>CAREER</span>
+                <span>62%</span>
+            </div>
+
+            <div class="system-bar">
+                <div class="system-fill" style="width:62%"></div>
+            </div>
+
+        </div>
+
+        <div class="system-row">
+
+            <div class="system-label">
+                <span>ACADEMICS</span>
+                <span>84%</span>
+            </div>
+
+            <div class="system-bar">
+                <div class="system-fill" style="width:84%"></div>
+            </div>
+
+        </div>
+
+        <button onclick="jarvisBriefing()">
+            MORNING BRIEFING
+        </button>
+
+    </section>
+
+</div>
+
+<!-- TASKS -->
+
+<div class="lower">
+
+    <section class="panel">
+
+        <div class="panel-title">
+            PRIORITY OBJECTIVES
+        </div>
+
+        <div class="form-row">
+
+            <button onclick="openTaskModal()">
+                + ADD TASK
+            </button>
+
+            <button onclick="clearCompleted()">
+                CLEAR COMPLETED
+            </button>
+
+            <button onclick="startFocusMode()">
+                FOCUS MODE
+            </button>
+
+        </div>
+
+        <div class="tasks" id="tasks"></div>
+
+    </section>
+
+    <!-- ALERTS -->
+
+    <section class="panel">
+
+        <div class="panel-title">
+            JARVIS ALERTS
+        </div>
+
+        <div id="alerts"></div>
+
+    </section>
+
+</div>
+
+<!-- TERMINAL -->
+
+<div class="terminal">
+
+    <div class="panel-title">
+        JARVIS COMMAND TERMINAL
+    </div>
+
+    <div
+        class="terminal-output"
+        id="terminalOutput">
+        JARVIS ONLINE.<br>
+        Awaiting command.
+    </div>
+
+    <div class="command-row">
+
+        <span class="prompt">
+            JARVIS &gt;
+        </span>
+
+        <input
+            id="commandInput"
+            placeholder="Type: brief me, progress, what is due, focus mode..."
+            onkeydown="handleCommand(event)"
+        >
+
+        <button onclick="listenForVoice()">
+            🎙
+        </button>
+
+    </div>
+
+</div>
+
+<!-- TASK MODAL -->
+
+<div class="modal" id="taskModal">
+
+    <div class="modal-box">
+
+        <h2>NEW OBJECTIVE</h2>
+
+        <input
+            id="taskName"
+            placeholder="Task name"
+        >
+
+        <input
+            id="taskDate"
+            type="date"
+        >
+
+        <select id="taskPriority">
+
+            <option value="high">
+                High Priority
+            </option>
+
+            <option value="medium">
+                Medium Priority
+            </option>
+
+            <option value="low">
+                Low Priority
+            </option>
+
+        </select>
+
+        <button onclick="addTask()">
+            ADD OBJECTIVE
+        </button>
+
+        <button onclick="closeTaskModal()">
+            CANCEL
+        </button>
+
+    </div>
+
+</div>
+
+<!-- EVENT MODAL -->
+
+<div class="modal" id="eventModal">
+
+    <div class="modal-box">
+
+        <h2>NEW SCHEDULE EVENT</h2>
+
+        <input
+            id="eventName"
+            placeholder="Event name"
+        >
+
+        <input
+            id="eventTime"
+            type="time"
+        >
+
+        <button onclick="addEvent()">
+            ADD EVENT
+        </button>
+
+        <button onclick="closeEventModal()">
+            CANCEL
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+/* ---------------------------
+   DEFAULT DATA
+--------------------------- */
+
+let tasks =
+JSON.parse(localStorage.getItem("jarvisTasks")) || [
+
+{
+    id:1,
+    name:"Workout",
+    due:getDateOffset(0),
+    priority:"high",
+    completed:false
+},
+
+{
+    id:2,
+    name:"Cybersecurity study",
+    due:getDateOffset(0),
+    priority:"high",
+    completed:false
+},
+
+{
+    id:3,
+    name:"Work on personal project",
+    due:getDateOffset(1),
+    priority:"medium",
+    completed:false
+},
+
+{
+    id:4,
+    name:"Update resume / LinkedIn",
+    due:getDateOffset(3),
+    priority:"low",
+    completed:false
+}
+
+];
+
+
+let schedule =
+JSON.parse(localStorage.getItem("jarvisSchedule")) || [
+
+{
+    name:"Morning Training",
+    time:"06:00"
+},
+
+{
+    name:"Breakfast / Prepare",
+    time:"07:15"
+},
+
+{
+    name:"Work",
+    time:"09:00"
+},
+
+{
+    name:"Cybersecurity Development",
+    time:"16:00"
+},
+
+{
+    name:"Evening Review",
+    time:"21:00"
+}
+
+];
+
+
+/* ---------------------------
+   DATE
+--------------------------- */
+
+function getDateOffset(days){
+
+    let d = new Date();
+
+    d.setDate(
+        d.getDate() + days
+    );
+
+    return d
+        .toISOString()
+        .split("T")[0];
+}
+
+
+/* ---------------------------
+   CLOCK
+--------------------------- */
+
+function updateClock(){
+
+    const now = new Date();
+
+    document.getElementById("clock").innerText =
+        now.toLocaleTimeString(
+            [],
+            {
+                hour:"2-digit",
+                minute:"2-digit",
+                second:"2-digit"
+            }
+        );
+
+    document.getElementById("date").innerText =
+        now
+        .toLocaleDateString(
+            [],
+            {
+                weekday:"long",
+                month:"long",
+                day:"numeric",
+                year:"numeric"
+            }
+        )
+        .toUpperCase();
+
+}
+
+setInterval(updateClock,1000);
+
+updateClock();
+
+
+/* ---------------------------
+   SCHEDULE
+--------------------------- */
+
+function renderSchedule(){
+
+    schedule.sort(
+        (a,b) =>
+        a.time.localeCompare(b.time)
+    );
+
+    const holder =
+        document.getElementById("schedule");
+
+    holder.innerHTML="";
+
+    schedule.forEach(event=>{
+
+        const div =
+            document.createElement("div");
+
+        div.className="schedule-item";
+
+        div.innerHTML=`
+
+        <div class="schedule-time">
+            ${formatTime(event.time)}
+        </div>
+
+        <div class="schedule-name">
+            ${event.name}
+        </div>
+
+        `;
+
+        holder.appendChild(div);
+
+    });
+
+}
+
+
+function formatTime(time){
+
+    const [hour,minute] =
+        time.split(":");
+
+    const d = new Date();
+
+    d.setHours(hour);
+
+    d.setMinutes(minute);
+
+    return d.toLocaleTimeString(
+        [],
+        {
+            hour:"numeric",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+
+/* ---------------------------
+   TASKS
+--------------------------- */
+
+function renderTasks(){
+
+    tasks.sort((a,b)=>{
+
+        if(
+            a.completed !==
+            b.completed
+        ){
+
+            return a.completed
+                ? 1
+                : -1;
+
+        }
+
+        return new Date(a.due)
+            - new Date(b.due);
+
+    });
+
+
+    const holder =
+        document.getElementById("tasks");
+
+    holder.innerHTML="";
+
+
+    tasks.forEach(task=>{
+
+        const row =
+            document.createElement("div");
+
+        row.className =
+            "task" +
+            (
+                task.completed
+                ? " completed"
+                : ""
+            );
+
+        row.innerHTML=`
+
+        <input
+            type="checkbox"
+            ${task.completed ? "checked":""}
+            onchange="toggleTask(${task.id})"
+        >
+
+        <div class="task-name">
+            ${task.name}
+        </div>
+
+        <div class="task-date">
+            ${displayDueDate(task.due)}
+        </div>
+
+        <div
+            class="
+            task-priority
+            priority-${task.priority}
+            ">
+            ${task.priority.toUpperCase()}
+            <span
+                class="delete"
+                onclick="deleteTask(${task.id})"
+            >
+                ✕
+            </span>
+        </div>
+
+        `;
+
+        holder.appendChild(row);
+
+    });
+
+    updateProgress();
+
+    renderAlerts();
+
+    saveData();
+
+}
+
+
+function displayDueDate(dateString){
+
+    const today =
+        new Date();
+
+    today.setHours(0,0,0,0);
+
+    const due =
+        new Date(
+            dateString + "T00:00:00"
+        );
+
+    const difference =
+        Math.round(
+            (due-today) /
+            86400000
+        );
+
+
+    if(difference < 0){
+        return "OVERDUE";
+    }
+
+    if(difference === 0){
+        return "DUE TODAY";
+    }
+
+    if(difference === 1){
+        return "DUE TOMORROW";
+    }
+
+    return "DUE IN " +
+        difference +
+        " DAYS";
+
+}
+
+
+function toggleTask(id){
+
+    const task =
+        tasks.find(
+            x=>x.id === id
+        );
+
+    task.completed =
+        !task.completed;
+
+    renderTasks();
+
+}
+
+
+function deleteTask(id){
+
+    tasks =
+        tasks.filter(
+            x=>x.id !== id
+        );
+
+    renderTasks();
+
+}
+
+
+function clearCompleted(){
+
+    tasks =
+        tasks.filter(
+            task=>!task.completed
+        );
+
+    renderTasks();
+
+}
+
+
+/* ---------------------------
+   PROGRESS
+--------------------------- */
+
+function updateProgress(){
+
+    const total =
+        tasks.length;
+
+    const complete =
+        tasks.filter(
+            t=>t.completed
+        ).length;
+
+
+    const percent =
+        total === 0
+        ? 0
+        : Math.round(
+            complete / total * 100
+        );
+
+
+    document
+    .getElementById(
+        "progressPercent"
+    )
+    .innerText =
+        percent + "%";
+
+
+    document
+    .getElementById(
+        "progressBar"
+    )
+    .style.width =
+        percent + "%";
+
+
+    document
+    .getElementById(
+        "productivityPercent"
+    )
+    .innerText =
+        percent + "%";
+
+
+    document
+    .getElementById(
+        "productivityBar"
+    )
+    .style.width =
+        percent + "%";
+
+
+    document
+    .getElementById(
+        "taskCount"
+    )
+    .innerText =
+        complete +
+        " / " +
+        total +
+        " OBJECTIVES COMPLETE";
+
+}
+
+
+/* ---------------------------
+   ALERTS
+--------------------------- */
+
+function renderAlerts(){
+
+    const holder =
+        document.getElementById("alerts");
+
+    holder.innerHTML="";
+
+    const openTasks =
+        tasks.filter(
+            task=>!task.completed
+        );
+
+    if(openTasks.length === 0){
+
+        holder.innerHTML=`
+
+        <div class="alert">
+
+        <div class="alert-name">
+            ✓ ALL OBJECTIVES COMPLETE
+        </div>
+
+        </div>
+
+        `;
+
+        return;
+
+    }
+
+
+    openTasks
+    .slice(0,4)
+    .forEach(task=>{
+
+        const div =
+            document.createElement("div");
+
+        div.className="alert";
+
+        div.innerHTML=`
+
+        <div class="alert-date">
+            ${displayDueDate(task.due)}
+        </div>
+
+        <div class="alert-name">
+            ⚠ ${task.name}
+        </div>
+
+        `;
+
+        holder.appendChild(div);
+
+    });
+
+}
+
+
+/* ---------------------------
+   TASK MODAL
+--------------------------- */
+
+function openTaskModal(){
+
+    document
+    .getElementById(
+        "taskModal"
+    )
+    .style.display="flex";
+
+}
+
+
+function closeTaskModal(){
+
+    document
+    .getElementById(
+        "taskModal"
+    )
+    .style.display="none";
+
+}
+
+
+function addTask(){
+
+    const name =
+        document
+        .getElementById(
+            "taskName"
+        ).value.trim();
+
+    const due =
+        document
+        .getElementById(
+            "taskDate"
+        ).value;
+
+    const priority =
+        document
+        .getElementById(
+            "taskPriority"
+        ).value;
+
+
+    if(!name || !due){
+
+        jarvisSay(
+            "Objective name and due date required."
+        );
+
+        return;
+
+    }
+
+
+    tasks.push({
+
+        id:Date.now(),
+
+        name:name,
+
+        due:due,
+
+        priority:priority,
+
+        completed:false
+
+    });
+
+
+    document
+    .getElementById(
+        "taskName"
+    ).value="";
+
+
+    closeTaskModal();
+
+    renderTasks();
+
+    jarvisSay(
+        "Objective added."
+    );
+
+}
+
+
+/* ---------------------------
+   EVENT MODAL
+--------------------------- */
+
+function openEventModal(){
+
+    document
+    .getElementById(
+        "eventModal"
+    )
+    .style.display="flex";
+
+}
+
+
+function closeEventModal(){
+
+    document
+    .getElementById(
+        "eventModal"
+    )
+    .style.display="none";
+
+}
+
+
+function addEvent(){
+
+    const name =
+        document
+        .getElementById(
+            "eventName"
+        ).value.trim();
+
+    const time =
+        document
+        .getElementById(
+            "eventTime"
+        ).value;
+
+
+    if(!name || !time){
+
+        jarvisSay(
+            "Event name and time required."
+        );
+
+        return;
+
+    }
+
+
+    schedule.push({
+        name,
+        time
+    });
+
+
+    saveData();
+
+    renderSchedule();
+
+    closeEventModal();
+
+    jarvisSay(
+        "Schedule updated."
+    );
+
+}
+
+
+/* ---------------------------
+   STORAGE
+--------------------------- */
+
+function saveData(){
+
+    localStorage.setItem(
+        "jarvisTasks",
+        JSON.stringify(tasks)
+    );
+
+    localStorage.setItem(
+        "jarvisSchedule",
+        JSON.stringify(schedule)
+    );
+
+}
+
+
+/* ---------------------------
+   JARVIS COMMANDS
+--------------------------- */
+
+function handleCommand(event){
+
+    if(event.key !== "Enter"){
+        return;
+    }
+
+    const input =
+        event.target;
+
+    const command =
+        input
+        .value
+        .trim()
+        .toLowerCase();
+
+    if(!command){
+        return;
+    }
+
+
+    processCommand(command);
+
+    input.value="";
+
+}
+
+
+function processCommand(command){
+
+    terminal(
+        "> " + command
+    );
+
+
+    if(
+        command.includes("brief")
+    ){
+
+        jarvisBriefing();
+
+        return;
+
+    }
+
+
+    if(
+        command.includes("progress")
+    ){
+
+        const complete =
+            tasks.filter(
+                t=>t.completed
+            ).length;
+
+        const percent =
+            tasks.length
+            ? Math.round(
+                complete /
+                tasks.length *
+                100
+            )
+            : 0;
+
+        jarvisSay(
+            "Daily productivity is currently " +
+            percent +
+            " percent. " +
+            complete +
+            " of " +
+            tasks.length +
+            " objectives complete."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        command.includes("due")
+        ||
+        command.includes("deadline")
+    ){
+
+        const next =
+            tasks
+            .filter(
+                t=>!t.completed
+            )
+            .sort(
+                (a,b)=>
+                new Date(a.due)
+                -
+                new Date(b.due)
+            )[0];
+
+
+        if(next){
+
+            jarvisSay(
+                "Your next objective is " +
+                next.name +
+                ". " +
+                displayDueDate(
+                    next.due
+                ) +
+                "."
+            );
+
+        }else{
+
+            jarvisSay(
+                "There are no remaining objectives."
+            );
+
+        }
+
+        return;
+
+    }
+
+
+    if(
+        command.includes("focus")
+    ){
+
+        startFocusMode();
+
+        return;
+
+    }
+
+
+    if(
+        command.includes("time")
+    ){
+
+        jarvisSay(
+            "The current time is " +
+            new Date()
+            .toLocaleTimeString()
+        );
+
+        return;
+
+    }
+
+
+    if(
+        command.includes("hello")
+        ||
+        command.includes("hey jarvis")
+    ){
+
+        jarvisSay(
+            "Hello. All systems are operational. How may I assist you?"
+        );
+
+        return;
+
+    }
+
+
+    jarvisSay(
+        "Command not currently recognized. Try briefing, progress, due dates, or focus mode."
+    );
+
+}
+
+
+/* ---------------------------
+   BRIEFING
+--------------------------- */
+
+function jarvisBriefing(){
+
+    const remaining =
+        tasks.filter(
+            task=>!task.completed
+        );
+
+    const today =
+        new Date()
+        .toISOString()
+        .split("T")[0];
+
+    const dueToday =
+        remaining.filter(
+            task=>task.due === today
+        );
+
+
+    let message =
+
+        "Good morning. " +
+
+        "You have " +
+        schedule.length +
+        " scheduled events today. " +
+
+        remaining.length +
+        " objectives remain. ";
+
+
+    if(dueToday.length){
+
+        message +=
+
+        dueToday.length +
+        " objective" +
+
+        (
+            dueToday.length === 1
+            ? " is "
+            : "s are "
+        )
+
+        +
+
+        "due today. ";
+
+    }
+
+
+    if(remaining.length){
+
+        const next =
+            [...remaining]
+            .sort(
+                (a,b)=>
+                new Date(a.due)
+                -
+                new Date(b.due)
+            )[0];
+
+
+        message +=
+
+        "Highest immediate priority: " +
+        next.name +
+        ".";
+
+    }else{
+
+        message +=
+
+        "All objectives have been completed.";
+
+    }
+
+
+    jarvisSay(message);
+
+}
+
+
+/* ---------------------------
+   FOCUS MODE
+--------------------------- */
+
+let focusInterval;
+
+function startFocusMode(){
+
+    const unfinished =
+        tasks
+        .filter(
+            task=>!task.completed
+        )
+        .sort(
+            (a,b)=>
+            new Date(a.due)
+            -
+            new Date(b.due)
+        );
+
+
+    if(!unfinished.length){
+
+        jarvisSay(
+            "No unfinished objectives available for focus mode."
+        );
+
+        return;
+
+    }
+
+
+    const task =
+        unfinished[0];
+
+    let seconds =
+        25 * 60;
+
+
+    clearInterval(
+        focusInterval
+    );
+
+
+    jarvisSay(
+        "Focus mode activated. Current objective: " +
+        task.name +
+        ". Twenty five minute focus session initiated."
+    );
+
+
+    focusInterval =
+        setInterval(()=>{
+
+            seconds--;
+
+
+            const mins =
+                Math.floor(
+                    seconds / 60
+                );
+
+            const secs =
+                seconds % 60;
+
+
+            terminal(
+                "FOCUS // " +
+                task.name +
+                " // " +
+                mins +
+                ":" +
+                String(secs)
+                .padStart(2,"0")
+            );
+
+
+            if(seconds <= 0){
+
+                clearInterval(
+                    focusInterval
+                );
+
+                jarvisSay(
+                    "Focus session complete."
+                );
+
+            }
+
+        },1000);
+
+}
+
+
+/* ---------------------------
+   TERMINAL OUTPUT
+--------------------------- */
+
+function terminal(text){
+
+    const output =
+        document
+        .getElementById(
+            "terminalOutput"
+        );
+
+    output.innerHTML +=
+
+        "<br>" +
+        text;
+
+    output.scrollTop =
+        output.scrollHeight;
+
+}
+
+
+/* ---------------------------
+   JARVIS SPEECH
+--------------------------- */
+
+function jarvisSay(message){
+
+    terminal(
+        "JARVIS: " +
+        message
+    );
+
+
+    if(
+        "speechSynthesis"
+        in window
+    ){
+
+        window
+        .speechSynthesis
+        .cancel();
+
+
+        const speech =
+            new SpeechSynthesisUtterance(
+                message
+            );
+
+
+        speech.rate=.92;
+
+        speech.pitch=.8;
+
+        speech.volume=.8;
+
+
+        window
+        .speechSynthesis
+        .speak(speech);
+
+    }
+
+}
+
+
+/* ---------------------------
+   VOICE COMMAND
+--------------------------- */
+
+function listenForVoice(){
+
+    const Recognition =
+        window.SpeechRecognition
+        ||
+        window.webkitSpeechRecognition;
+
+
+    if(!Recognition){
+
+        jarvisSay(
+            "Voice recognition is not supported by this browser."
+        );
+
+        return;
+
+    }
+
+
+    const recognition =
+        new Recognition();
+
+
+    recognition.lang="en-US";
+
+    recognition.start();
+
+
+    terminal(
+        "VOICE INPUT ACTIVE..."
+    );
+
+
+    recognition.onresult =
+        function(event){
+
+            const command =
+                event.results[0][0]
+                .transcript;
+
+            terminal(
+                "> " + command
+            );
+
+            processCommand(
+                command.toLowerCase()
+            );
+
+        };
+
+}
+
+
+/* ---------------------------
+   BOOT SEQUENCE
+--------------------------- */
+
+function bootSequence(){
+
+    const messages=[
+
+        "INITIALIZING SYSTEM...",
+
+        "LOADING COMMAND INTERFACE...",
+
+        "CONNECTING PRODUCTIVITY CORE...",
+
+        "SCANNING DAILY OBJECTIVES...",
+
+        "J.A.R.V.I.S. ONLINE"
+
+    ];
+
+
+    let i=0;
+
+
+    const interval =
+        setInterval(()=>{
+
+            document
+            .getElementById(
+                "bootMessage"
+            )
+            .innerText =
+                messages[i];
+
+
+            i++;
+
+
+            if(
+                i ===
+                messages.length
+            ){
+
+                clearInterval(
+                    interval
+                );
+
+
+                setTimeout(()=>{
+
+                    document
+                    .getElementById(
+                        "boot"
+                    )
+                    .style
+                    .display="none";
+
+
+                    jarvisSay(
+                        "All systems online."
+                    );
+
+                },600);
+
+            }
+
+        },550);
+
+}
+
+
+/* ---------------------------
+   START
+--------------------------- */
+
+renderSchedule();
+
+renderTasks();
+
+bootSequence();
+
+</script>
+
+</body>
+</html>
